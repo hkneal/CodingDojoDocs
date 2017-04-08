@@ -222,8 +222,43 @@ function fullDate2(dayNum){
   console.log(dayOfWeek + ", " + month + " " + dateNum + ", " + currentYear);
 }
 
+function fullDate3(dayNum){
+  var yearsPast = numLeapYears = numNoneLeapYears = daysPast = 0;
+  var dayOfWeek = month = "";
+  var dateNum =  0;
+  yearsPast = parseInt(dayNum / 365);
+  if(yearsPast>=4) numLeapYears = parseInt(yearsPast / 4);
+  if(yearsPast >= 283) numLeapYears = numLeapYears - 3;
+  else if(yearsPast >= 183) numLeapYears = numLeapYears - 2;
+    else if(yearsPast >= 183) numLeapYears = numLeapYears - 1;
+  numNoneLeapYears = yearsPast - numLeapYears;
+  daysPast = dayNum - ((366 * numLeapYears) + (365 * numNoneLeapYears));
+  if(daysPast <0){
+    if((((((2017+yearsPast)%4) == 0) && (2017+yearsPast)!=2300)
+      && (2017+yearsPast)!=2200) && (2017+yearsPast)!=2100)
+      daysPast = 366 - numLeapYears;
+      else daysPast = 365 - numLeapYears;
+    yearsPast = yearsPast--;
+  }
+  currentYear = 2017 + yearsPast;
+  if((currentYear%4 == 0) && (currentYear != 2300) && (currentYear != 2200)
+  && (currentYear != 2100)){
+    console.log(daysPast);
+    dayOfWeek =  weekDayName(daysPast);
+    month = dayToMonthL(daysPast);
+    dateNum = dayInMonthL(daysPast);
+  }
+  else {
+    dayOfWeek =  weekDayName(daysPast);
+    month = dayToMonth(daysPast);
+    dateNum = dayInMonth(daysPast);
+  }
+  console.log(dayOfWeek + ", " + month + " " + dateNum + ", " + currentYear);
+}
+
 // someDays();
 // console.log(monthToDays(5));
 // console.log(dayToMonth(365));
 // fullDate(142);
-fullDate2(8475);
+// fullDate2(8475);
+fullDate3(139947);
