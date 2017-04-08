@@ -71,6 +71,28 @@ function dayToMonth(dayNum){
   return monthName;
 }
 
+function dayToMonthL(dayNum){
+  var monthName = "";
+  var monthNum = 0;
+  if(dayNum<=31) monthNum =1;
+  else if(dayNum<=60) monthNum =2;
+  else if(dayNum<=91) monthNum =3;
+  else if(dayNum<=121) monthNum =4;
+  else if(dayNum<=152) monthNum =5;
+  else if(dayNum<=182) monthNum =6;
+  else if(dayNum<=213) monthNum =7;
+  else if(dayNum<=244) monthNum =8;
+  else if(dayNum<=274) monthNum =9;
+  else if(dayNum<=305) monthNum =10;
+  else if(dayNum<=336) monthNum =11;
+  else if(dayNum<=366) monthNum =12;
+
+  var monthArray = ["January","February","March","April","May","June",
+  "July","August","September","October","November","December"];
+  monthName = monthArray[monthNum-1];
+  return monthName;
+}
+
 function monthToDays(monthNum){
   var monthName = "";
   var numOfDays = 0;
@@ -94,7 +116,30 @@ function monthToDays(monthNum){
   return numOfDays;
 }
 
-function dayInMonth(dayNum, month)
+function monthToDaysL(monthNum){
+  var monthName = "";
+  var numOfDays = 0;
+  var monthArray = ["January","February","March","April","May","June",
+  "July","August","September","October","November","December"];
+  monthName = monthArray[monthNum-1];
+  switch(monthName) {
+    case "January": numOfDays = 31; break;
+    case "February": numOfDays = 29; break;
+    case "March": numOfDays = 31; break;
+    case "April": numOfDays = 30; break;
+    case "May": numOfDays = 31; break;
+    case "June": numOfDays = 30; break;
+    case "July": numOfDays = 31; break;
+    case "August": numOfDays = 31; break;
+    case "September": numOfDays = 30; break;
+    case "October": numOfDays = 31; break;
+    case "November": numOfDays = 30; break;
+    case "December": numOfDays = 31; break;
+  }
+  return numOfDays;
+}
+
+function dayInMonth(dayNum)
 {
   var dateNum = dayNum;
   var monthNum = 0;
@@ -117,6 +162,29 @@ function dayInMonth(dayNum, month)
   return dateNum;
 }
 
+function dayInMonthL(dayNum)
+{
+  var dateNum = dayNum;
+  var monthNum = 0;
+  if(dayNum<=31) monthNum =1;
+  else if(dayNum<=60) monthNum =2;
+  else if(dayNum<=91) monthNum =3;
+  else if(dayNum<=121) monthNum =4;
+  else if(dayNum<=152) monthNum =5;
+  else if(dayNum<=182) monthNum =6;
+  else if(dayNum<=213) monthNum =7;
+  else if(dayNum<=244) monthNum =8;
+  else if(dayNum<=274) monthNum =9;
+  else if(dayNum<=305) monthNum =10;
+  else if(dayNum<=335) monthNum =11;
+  else if(dayNum<=366) monthNum =12;
+  for(i=monthNum; i>1; i--)
+  {
+    dateNum = dateNum - monthToDaysL(i);
+  }
+  return dateNum;
+}
+
 function fullDate(dayNum){
 var dayOfWeek = month = "";
 var dateNum = yearNum = 0;
@@ -127,7 +195,35 @@ yearNum = 2017;
 console.log(dayOfWeek + ", " + month + " " + dateNum + ", " + yearNum);
 }
 
+function fullDate2(dayNum){
+  var yearsPast = numLeapYears = numNoneLeapYears = daysPast = 0;
+  var dayOfWeek = month = "";
+  var dateNum =  0;
+  yearsPast = parseInt(dayNum / 365);
+  if(yearsPast>=4) numLeapYears = parseInt(yearsPast / 4);
+  numNoneLeapYears = yearsPast - numLeapYears;
+  daysPast = dayNum - ((366 * numLeapYears) + (365 * numNoneLeapYears));
+  if(daysPast <0){
+    if(((2017+yearsPast)%4) == 0) daysPast = 366 - numLeapYears;
+      else daysPast = 365 - numLeapYears;
+    yearsPast = yearsPast--;
+  }
+  currentYear = 2017 + yearsPast;
+  if(currentYear%4 == 0) {
+    dayOfWeek =  weekDayName(daysPast);
+    month = dayToMonthL(daysPast);
+    dateNum = dayInMonthL(daysPast);
+  }
+  else {
+    dayOfWeek =  weekDayName(daysPast);
+    month = dayToMonth(daysPast);
+    dateNum = dayInMonth(daysPast);
+  }
+  console.log(dayOfWeek + ", " + month + " " + dateNum + ", " + currentYear);
+}
+
 // someDays();
 // console.log(monthToDays(5));
 // console.log(dayToMonth(365));
-fullDate(142);
+// fullDate(142);
+fullDate2(8475);
