@@ -5,7 +5,7 @@ function weekDayName(dayNum){
   weekdayNum = (weekdayNum%1); //not sure why weekdayNum%7 wouldn't work.
   if(weekdayNum == 0) weekdayNum = 7;
   else {
-    weekdayNum = Math.round(weekdayNum * 7);
+    weekdayNum = parseInt(weekdayNum * 7);
   }
   switch(weekdayNum) {
   case 1: weekDayName = "Sunday"; break;
@@ -226,29 +226,36 @@ function fullDate3(dayNum){
   var yearsPast = numLeapYears = numNoneLeapYears = daysPast = 0;
   var dayOfWeek = month = "";
   var dateNum =  0;
-  yearsPast = parseInt(dayNum / 365);
-  if(yearsPast>=4) numLeapYears = parseInt(yearsPast / 4);
+  if(dayNum>=1460){
+    numLeapYears = numLeapYears + parseInt((dayNum - 1460) / 1460);
+    numNoneLeapYears = parseInt((dayNum - (numLeapYears * 366)) / 365);
+    daysPast = dayNum - (numLeapYears*366) - (numNoneLeapYears*365);
+  }
+  else {
+    numNoneLeapYears = parseInt(dayNum / 366);
+    daysPast = (dayNum / 365);
+    daysPast = parseInt((daysPast%1) * 365);
+  }
+  if(daysPast==0) daysPast = 365;
+  yearsPast = numLeapYears + numNoneLeapYears;
   if(yearsPast >= 283) numLeapYears = numLeapYears - 3;
   else if(yearsPast >= 183) numLeapYears = numLeapYears - 2;
-    else if(yearsPast >= 183) numLeapYears = numLeapYears - 1;
-  numNoneLeapYears = yearsPast - numLeapYears;
-  daysPast = dayNum - ((366 * numLeapYears) + (365 * numNoneLeapYears));
-  if(daysPast <0){
-    if((((((2017+yearsPast)%4) == 0) && (2017+yearsPast)!=2300)
-      && (2017+yearsPast)!=2200) && (2017+yearsPast)!=2100)
-      daysPast = 366 - numLeapYears;
-      else daysPast = 365 - numLeapYears;
-    yearsPast = yearsPast--;
-  }
+    else if(yearsPast >= 83) numLeapYears = numLeapYears - 1;
   currentYear = 2017 + yearsPast;
   if((currentYear%4 == 0) && (currentYear != 2300) && (currentYear != 2200)
   && (currentYear != 2100)){
-    console.log(daysPast);
+    // console.log(numLeapYears);
+    console.log("daysPastL:" + daysPast);
+    console.log("numLeapYears:" + numLeapYears);
+    console.log("numNoneLeapYears:" + numNoneLeapYears);
     dayOfWeek =  weekDayName(daysPast);
     month = dayToMonthL(daysPast);
     dateNum = dayInMonthL(daysPast);
   }
   else {
+    console.log("daysPast:" + daysPast);
+    console.log("numLeapYears:" + numLeapYears);
+    console.log("numNoneLeapYears:" + numNoneLeapYears);
     dayOfWeek =  weekDayName(daysPast);
     month = dayToMonth(daysPast);
     dateNum = dayInMonth(daysPast);
