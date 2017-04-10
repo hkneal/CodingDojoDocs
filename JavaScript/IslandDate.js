@@ -1,7 +1,7 @@
-function weekDayName(dayNum){
+function weekDayName(dayNum, numLeapYears, numNoneLeapYears){
   var weekdayNum = numWeeks = 0;
   var weekDayName = "";
-  weekdayNum = dayNum / 7;
+  weekdayNum = (((dayNum+numNoneLeapYears) + (numLeapYears*2)) / 7);
   weekdayNum = (weekdayNum%1); //not sure why weekdayNum%7 wouldn't work.
   if(weekdayNum == 0) weekdayNum = 7;
   else {
@@ -226,8 +226,9 @@ function fullDate3(dayNum){
   var yearsPast = numLeapYears = numNoneLeapYears = daysPast = 0;
   var dayOfWeek = month = "";
   var dateNum =  0;
-  if(dayNum>=1460){
-    numLeapYears = numLeapYears + parseInt((dayNum - 1460) / 1460);
+  if(dayNum>=1098){
+    // numLeapYears++;
+    numLeapYears = numLeapYears + parseInt((dayNum - 1098) / 1464);
     numNoneLeapYears = parseInt((dayNum - (numLeapYears * 366)) / 365);
     daysPast = dayNum - (numLeapYears*366) - (numNoneLeapYears*365);
   }
@@ -242,13 +243,14 @@ function fullDate3(dayNum){
   else if(yearsPast >= 183) numLeapYears = numLeapYears - 2;
     else if(yearsPast >= 83) numLeapYears = numLeapYears - 1;
   currentYear = 2017 + yearsPast;
+  // daysPast = daysPast + numLeapYears;
   if((currentYear%4 == 0) && (currentYear != 2300) && (currentYear != 2200)
   && (currentYear != 2100)){
     // console.log(numLeapYears);
     console.log("daysPastL:" + daysPast);
     console.log("numLeapYears:" + numLeapYears);
     console.log("numNoneLeapYears:" + numNoneLeapYears);
-    dayOfWeek =  weekDayName(daysPast);
+    dayOfWeek =  weekDayName(daysPast, numLeapYears, numNoneLeapYears);
     month = dayToMonthL(daysPast);
     dateNum = dayInMonthL(daysPast);
   }
@@ -256,7 +258,7 @@ function fullDate3(dayNum){
     console.log("daysPast:" + daysPast);
     console.log("numLeapYears:" + numLeapYears);
     console.log("numNoneLeapYears:" + numNoneLeapYears);
-    dayOfWeek =  weekDayName(daysPast);
+    dayOfWeek =  weekDayName(daysPast, numLeapYears, numNoneLeapYears);
     month = dayToMonth(daysPast);
     dateNum = dayInMonth(daysPast);
   }
