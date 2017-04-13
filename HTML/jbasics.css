@@ -92,6 +92,11 @@
   margin-left: 40px;
   margin-top: 5px;
 }
+#rightbox em{
+  color: #8191FF;
+  text-emphasis-style: none;
+  font-style: normal;
+}
 footer{
   width: 1195px;
   height: 55px;
